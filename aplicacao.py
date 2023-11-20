@@ -40,7 +40,7 @@ while x == 1:
 
 
 """
-    match 5:
+    match 6:
         case 1:
             cadastro()
 
@@ -55,4 +55,7 @@ while x == 1:
 
         case 5:
             sedentarismo()
+
+        case 6:
+            
 """
