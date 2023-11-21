@@ -23,13 +23,13 @@ def cadastro():
 
     # Lendo o arquivo existente
     try:
-        with open('acesso.txt', 'r') as arquivo:
+        with open('dados.txt', 'r') as arquivo:
             conteudo_existente = arquivo.read()
     except FileNotFoundError:
         conteudo_existente = ""
 
     # Adicionando o novo cadastro ao arquivo
-    with open('acesso.txt', 'w') as arquivo:
+    with open('dados.txt', 'w') as arquivo:
         # Carregando dados existentes como uma lista de dicionários
         dados_existentes = json.loads(conteudo_existente) if conteudo_existente else []
 

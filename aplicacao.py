@@ -21,12 +21,12 @@ def cadastro():
     }
 
     try:
-        with open('acesso.txt', 'r') as arquivo:
+        with open('dados.txt', 'r') as arquivo:
             conteudo_existente = arquivo.read()
     except FileNotFoundError:
         conteudo_existente = ""
 
-    with open('acesso.txt', 'w') as arquivo:
+    with open('dados.txt', 'w') as arquivo:
         dados_existentes = json.loads(conteudo_existente) if conteudo_existente else []
 
         dados_existentes.append(usuario)
@@ -38,6 +38,8 @@ def dados ():
 
 def IMC (altura, peso):
     """Calcula o IMC"""
+
+    
     imc = peso / (altura**2)
     
     if imc <= 16 :
