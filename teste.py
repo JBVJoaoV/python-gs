@@ -32,7 +32,6 @@ def cadastro():
 
         arquivo.write(json.dumps(dados_existentes, indent=2, ensure_ascii=False).replace("'", '"'))
 
-
 def login():
     """Realiza o login para resgatar os dados dos usuarios"""
 
@@ -62,7 +61,9 @@ def login():
 
 def dados():
     """Exibe os dados do usuario"""
+
     usuario = login()  # Login do usuário
+    
     if usuario is not None:
         print("\nDados do Usuário:")
         print(f"Nome: {usuario['nome']}")
@@ -71,7 +72,6 @@ def dados():
         print(f"Altura: {usuario['altura']} metros")
         print(f"Peso: {usuario['peso']} kg")
         print(f"Tempo de atividade física por semana: {usuario['tempo_atividade']} minutos")
-        print()
 
 def imc():
     """Calcula o IMC"""
@@ -103,8 +103,20 @@ def imc():
     else:
         print(f'Obesidade morbida, seu IMC é: {imc}')
 
-def sedentarismo ():
-    """Calcula o nivel de sedentarismo"""
+def sedentarismo():
+    """Calcula o nível de sedentarismo"""
+
+    usuario = login()  # Login do usuário
+    if usuario is not None:
+        tempo_atividade = usuario.get('tempo_atividade', 0)
+
+        if tempo_atividade < 150:
+            print(f'Nível de sedentarismo alto. Seu tempo de atividade física por semana é inferior a 150 minutos.')
+        elif 150 <= tempo_atividade < 300:
+            print(f'Nível de sedentarismo moderado. Seu tempo de atividade física por semana está entre 150 e 299 minutos.')
+        else:
+            print(f'Nível de sedentarismo baixo. Seu tempo de atividade física por semana é igual ou superior a 300 minutos.')
+
 
 def sair():
     """Interrompe o loop do menu"""

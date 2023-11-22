@@ -103,8 +103,19 @@ def imc():
     else:
         print(f'Obesidade morbida, seu IMC é: {imc}')
 
-def sedentarismo ():
-    """Calcula o nivel de sedentarismo"""
+def sedentarismo():
+    """Calcula o nível de sedentarismo"""
+
+    usuario = login()  # Login do usuário
+    if usuario is not None:
+        tempo_atividade = usuario.get('tempo_atividade', 0)
+
+        if tempo_atividade < 150:
+            print(f'Nível de sedentarismo alto. Seu tempo de atividade física por semana é inferior a 150 minutos.')
+        elif 150 <= tempo_atividade < 300:
+            print(f'Nível de sedentarismo moderado. Seu tempo de atividade física por semana está entre 150 e 299 minutos.')
+        else:
+            print(f'Nível de sedentarismo baixo. Seu tempo de atividade física por semana é igual ou superior a 300 minutos.')
 
 def sair():
     """Interrompe o loop do menu"""
