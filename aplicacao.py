@@ -2,13 +2,13 @@ import json
 
 def cadastro():
     """Para cadastrar novos usuarios"""
+
     nome = input("Digite seu nome: ")
     idade = int(input("Digite sua idade: "))
     cpf = int(input("Digite seu CPF (somente numeros): "))
     altura = float(input("Digite sua altura (em metros, exemplo: 1.8): "))
     peso = float(input("Digite seu peso (em quilogramas): "))
     tempo_atividade = int(input("Digite o tempo de atividade física por semana (em minutos): "))
-    tempo_sono = int(input("Digite o tempo de sono por dia: "))
 
     usuario = {
         'nome': nome,
@@ -17,7 +17,6 @@ def cadastro():
         'altura': altura,
         'peso': peso,
         'tempo_atividade': tempo_atividade,
-        'tempo_sono': tempo_sono
     }
 
     try:
@@ -31,9 +30,11 @@ def cadastro():
 
         dados_existentes.append(usuario)
 
-        arquivo.write(json.dumps(dados_existentes, indent=2))
+        arquivo.write(json.dumps(dados_existentes, indent=2, ensure_ascii=False).replace("'", '"'))
 
 def login():
+    """Realiza o login para resgatar os dados dos usuarios"""
+
     nome_usuario = input("Digite o nome do usuário: ")
 
     try:
@@ -58,13 +59,24 @@ def login():
         print(f"Usuário {nome_usuario} não encontrado.")
         return None
 
-def dados ():
+def dados():
     """Exibe os dados do usuario"""
 
-def IMC ():
+    usuario = login()  # Login do usuário
+    
+    if usuario is not None:
+        print("\nDados do Usuário:")
+        print(f"Nome: {usuario['nome']}")
+        print(f"Idade: {usuario['idade']}")
+        print(f"CPF: {usuario['cpf']}")
+        print(f"Altura: {usuario['altura']} metros")
+        print(f"Peso: {usuario['peso']} kg")
+        print(f"Tempo de atividade física por semana: {usuario['tempo_atividade']} minutos")
+
+def imc():
     """Calcula o IMC"""
-    # Login do usuário
-    usuario = login()
+
+    usuario = login() # Login do usuário
     if usuario is None:
         return
 
@@ -95,6 +107,7 @@ def sedentarismo ():
     """Calcula o nivel de sedentarismo"""
 
 def sair():
+    """Interrompe o loop do menu"""
     return False
 
 while True:
@@ -106,11 +119,11 @@ while True:
     elif opcao == 2:
         dados()
     elif opcao == 3:
-        IMC()
+        imc()
     elif opcao == 4:
         sedentarismo()
     elif opcao == 5:
         if not sair():
-            break  # Interrompe o loop se sair() retornar False
+            break
     else:
         print("Opção inválida.")

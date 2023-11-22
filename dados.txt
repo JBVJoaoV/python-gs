@@ -1,20 +1,18 @@
 [
   {
-    "nome": "Joao",
+    "nome": "Joao Pedro",
     "idade": 18,
-    "cpf": 4573982302,
+    "cpf": 0,
     "altura": 1.8,
     "peso": 60.0,
-    "tempo_atividade": 15,
-    "tempo_sono": 8
+    "tempo_atividade": 150
   },
   {
-    "nome": "roberto",
+    "nome": "Roberto",
     "idade": 40,
     "cpf": 0,
     "altura": 1.75,
     "peso": 80.0,
-    "tempo_atividade": 150,
-    "tempo_sono": 400
+    "tempo_atividade": 120
   }
 ]
