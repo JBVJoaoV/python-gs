@@ -1,14 +1,66 @@
 import json
 
 def cadastro():
-    """Para cadastrar novos usuarios"""
+    """Para cadastrar novos usuários"""
 
+    # Validação do Nome
     nome = input("Digite seu nome: ")
-    idade = int(input("Digite sua idade: "))
-    cpf = int(input("Digite seu CPF (somente numeros): "))
-    altura = float(input("Digite sua altura (em metros, exemplo: 1.8): "))
-    peso = float(input("Digite seu peso (em quilogramas): "))
-    tempo_atividade = int(input("Digite o tempo de atividade física por semana (em minutos): "))
+    while not nome.isalpha():
+        print("Nome inválido. Certifique-se de inserir apenas letras.")
+        nome = input("Digite seu nome: ")
+
+    # Validação da Idade
+    while True:
+        try:
+            idade = int(input("Digite sua idade: "))
+            if idade > 0:
+                break
+            else:
+                print("Idade inválida. Certifique-se de inserir um valor positivo.")
+        except ValueError:
+            print("Idade inválida. Certifique-se de inserir um valor numérico.")
+
+    # Validação do CPF
+    while True:
+        cpf_str = input("Digite seu CPF (somente números): ")
+        if cpf_str.isdigit() and len(cpf_str) == 11:
+            cpf = int(cpf_str)
+            break
+        else:
+            print("CPF inválido. Certifique-se de inserir apenas números e ter 11 dígitos.")
+
+    # Validação da Altura
+    while True:
+        try:
+            altura = float(input("Digite sua altura (em metros, exemplo: 1.8): "))
+            if altura > 0:
+                break
+            else:
+                print("Altura inválida. Certifique-se de inserir um valor positivo.")
+        except ValueError:
+            print("Altura inválida. Certifique-se de inserir um valor numérico.")
+
+    # Validação do Peso
+    while True:
+        try:
+            peso = float(input("Digite seu peso (em quilogramas): "))
+            if peso > 0:
+                break
+            else:
+                print("Peso inválido. Certifique-se de inserir um valor positivo.")
+        except ValueError:
+            print("Peso inválido. Certifique-se de inserir um valor numérico.")
+
+    # Validação do Tempo de Atividade
+    while True:
+        try:
+            tempo_atividade = int(input("Digite o tempo de atividade física por semana (em minutos): "))
+            if tempo_atividade >= 0:
+                break
+            else:
+                print("Tempo de atividade inválido. Certifique-se de inserir um valor não negativo.")
+        except ValueError:
+            print("Tempo de atividade inválido. Certifique-se de inserir um valor numérico.")
 
     usuario = {
         'nome': nome,
@@ -31,6 +83,7 @@ def cadastro():
         dados_existentes.append(usuario)
 
         arquivo.write(json.dumps(dados_existentes, indent=2, ensure_ascii=False).replace("'", '"'))
+
 
 def login():
     """Realiza o login para resgatar os dados dos usuarios"""
@@ -117,13 +170,20 @@ def sedentarismo():
         else:
             print(f'Nível de sedentarismo baixo. Seu tempo de atividade física por semana é igual ou superior a 300 minutos.')
 
+def sono(tempo_dormido):
+    """Calcula o tempo de sono de um individuo"""
+    tempo_desejado = 480 # Tempo de sono desejado em minutos
 
-def sair():
-    """Interrompe o loop do menu"""
-    return False
+    if tempo_dormido >= tempo_desejado:
+        print(f'Você atingiu a quantidade desejada de sono. Você dormiu {tempo_dormido*60}')
+
+    else:
+        tempo_necessario = tempo_desejado - tempo_dormido
+        print(f'Você não dormiu horas o bastante. Faltam {tempo_necessario} minutos')
+
 
 while True:
-    print("Escolha uma opção:\n 1 - Cadastro\n 2 - Exibir dados\n 3 - Calcular IMC\n 4 - Calcular nivel de sedentarismo\n 5 - Sair")
+    print("Escolha uma opção:\n 1 - Cadastro\n 2 - Exibir dados\n 3 - Calcular IMC\n 4 - Calcular nivel de sedentarismo\n 5 - Calcular tempo de sono\n 6 - Sair")
     opcao = int(input("Opção: "))
 
     if opcao == 1:
@@ -135,7 +195,9 @@ while True:
     elif opcao == 4:
         sedentarismo()
     elif opcao == 5:
-        if not sair():
-            break
+        x = int(input("Digite o seu tempo de sono em minutos"))
+        sono(x)
+    elif opcao ==6:
+        break
     else:
         print("Opção inválida.")

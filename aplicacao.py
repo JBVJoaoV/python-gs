@@ -117,24 +117,39 @@ def sedentarismo():
         else:
             print(f'Nível de sedentarismo baixo. Seu tempo de atividade física por semana é igual ou superior a 300 minutos.')
 
-def sair():
-    """Interrompe o loop do menu"""
-    return False
+def sono(tempo_dormido):
+    """Calcula o tempo de sono de um individuo"""
+    tempo_desejado = 480 # Tempo de sono desejado em minutos
+
+    if tempo_dormido >= tempo_desejado:
+        print(f'Você atingiu a quantidade desejada de sono. Você dormiu {tempo_dormido//60} horas.')
+
+    else:
+        tempo_necessario = tempo_desejado - tempo_dormido
+        print(f'Você não dormiu horas o bastante. Faltam {tempo_necessario} minutos para atingir a meta de 8 horas.')
 
 while True:
-    print("Escolha uma opção:\n 1 - Cadastro\n 2 - Exibir dados\n 3 - Calcular IMC\n 4 - Calcular nivel de sedentarismo\n 5 - Sair")
+    print("Escolha uma opção:\n 1 - Cadastro\n 2 - Exibir dados\n 3 - Calcular IMC\n 4 - Calcular nivel de sedentarismo\n 5 - Calcular tempo de sono\n 6 - Sair")
     opcao = int(input("Opção: "))
 
     if opcao == 1:
         cadastro()
+
     elif opcao == 2:
         dados()
+
     elif opcao == 3:
         imc()
+
     elif opcao == 4:
         sedentarismo()
+
     elif opcao == 5:
-        if not sair():
-            break
+        x = int(input("Digite o seu tempo de sono em minutos: "))
+        sono(x)
+
+    elif opcao ==6:
+        break
+
     else:
         print("Opção inválida.")
