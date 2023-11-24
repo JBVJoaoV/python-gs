@@ -120,6 +120,112 @@ def dados():
         print(f"Peso: {usuario['peso']} kg")
         print(f"Tempo de atividade física por semana: {usuario['tempo_atividade']} minutos")
 
+def editar():
+    """Edita os dados do usuário"""
+
+    nome_usuario = input("Digite o nome do usuário que deseja editar: ")
+
+    try: # tratamento de erro
+        with open('dados.txt', 'r') as arquivo:
+            conteudo = arquivo.read()
+    except FileNotFoundError:
+        print("Arquivo 'dados.txt' não encontrado.")
+        return
+
+    dados_usuarios = json.loads(conteudo) if conteudo else []
+
+    usuario_encontrado = None
+    for usuario in dados_usuarios:
+        if usuario['nome'] == nome_usuario:
+            usuario_encontrado = usuario
+            break
+
+    if usuario_encontrado is None:
+        print(f"Usuário {nome_usuario} não encontrado.")
+        return
+
+    while True:
+        print("Escolha a informação que deseja editar:\n 1 - Nome\n 2 - Idade\n 3 - CPF\n 4 - Altura\n 5 - Peso\n 6 - Tempo de atividade\n 7 - Voltar")
+
+        try: #tratamento de erro para a opção de edição
+            opcao = int(input("Opção: "))
+        except ValueError:
+            print("Opção inválida. Insira um número válido.")
+            continue
+
+        if opcao == 1:
+            novo_nome = input("Digite o novo nome: ")
+            usuario['nome'] = novo_nome
+
+        elif opcao == 2:
+            while True: # loop para tratamento de erro da nova idade
+                try:
+                    nova_idade = int(input("Digite a nova idade: "))
+                    if nova_idade >= 0:
+                        usuario['idade'] = nova_idade
+                        break
+                    else:
+                        print("Idade inválida. Certifique-se de inserir um valor não negativo.")
+                except ValueError:
+                    print("Idade inválida. Certifique-se de inserir um valor numérico.")
+        
+        elif opcao == 3:
+            while True:
+                try:
+                    novo_cpf = int(input("Digite o novo CPF (somente números): "))
+                    if len(str(novo_cpf)) == 11:
+                        usuario['cpf'] = novo_cpf
+                        break
+                    else:
+                        print("CPF inválido. Certifique-se de inserir um CPF válido com 11 dígitos.")
+                except ValueError:
+                    print("CPF inválido. Certifique-se de inserir um valor numérico.")
+        
+        elif opcao == 4:
+            while True:
+                try:
+                    nova_altura = float(input("Digite a nova altura (em metros, exemplo: 1.8): "))
+                    if nova_altura > 0:
+                        usuario['altura'] = nova_altura
+                        break
+                    else:
+                        print("Altura inválida. Certifique-se de inserir um valor positivo.")
+                except ValueError:
+                    print("Altura inválida. Certifique-se de inserir um valor numérico.")
+        
+        elif opcao == 5:
+            while True: # loop para tratamento de erro do novo peso
+                try:
+                    novo_peso = float(input("Digite o novo peso (em quilogramas): "))
+                    if novo_peso > 0:
+                        usuario['peso'] = novo_peso
+                        break
+                    else:
+                        print("Peso inválido. Certifique-se de inserir um valor positivo.")
+                except ValueError:
+                    print("Peso inválido. Certifique-se de inserir um valor numérico.")
+        
+        elif opcao == 6:
+            while True: # loop para tratamento de erro de novo tempo de atividade física
+                try:
+                    novo_tempo_atividade = int(input("Digite o novo tempo de atividade física por semana (em minutos): "))
+                    if novo_tempo_atividade >= 0:
+                        usuario['tempo_atividade'] = novo_tempo_atividade
+                        break
+                    else:
+                        print("Tempo de atividade inválido. Certifique-se de inserir um valor não negativo.")
+                except ValueError:
+                    print("Tempo de atividade inválido. Certifique-se de inserir um valor numérico.")
+
+        elif opcao == 7:
+            break
+
+        else:
+            print("Opção inválida.")
+
+    with open('dados.txt', 'w') as arquivo:
+        arquivo.write(json.dumps(dados_usuarios, indent=2))
+
 def imc():
     """Calcula o IMC"""
 
@@ -131,6 +237,7 @@ def imc():
     peso = float(usuario.get('peso', 0))
 
     imc = peso / (altura ** 2)
+    imc = round(imc, 2)
 
     if imc <= 16 :
         print (f'Desnutrição, seu IMC é: {imc}')
@@ -175,41 +282,48 @@ def sono(tempo_dormido):
         tempo_necessario = tempo_desejado - tempo_dormido
         print(f'Você não dormiu horas o bastante. Faltam {tempo_necessario} minutos para atingir a meta de 8 horas.')
 
-while True: # loop para menu com tratamento de erro
-    print("Escolha uma opção:\n 1 - Cadastro\n 2 - Exibir dados\n 3 - Calcular IMC\n 4 - Calcular nivel de sedentarismo\n 5 - Calcular tempo de sono\n 6 - Sair")
-    
-    try:
-        opcao = int(input("Opção: "))
-    except ValueError:
-        print("Erro: Insira um número válido.")
-        continue
+def menu():
+    """Gera um menu em loop"""
+    while True: # loop para menu com tratamento de erro
+        print("Escolha uma opção:\n 1 - Cadastro\n 2 - Exibir dados\n 3 - Editar dados\n 4 - Calcular IMC\n 5 - Calcular nivel de sedentarismo\n 6 - Calcular tempo de sono\n 7 - Sair")
+        
+        try:
+            opcao = int(input("Opção: "))
+        except ValueError:
+            print("Erro: Insira um número válido.")
+            continue
 
-    if opcao == 1:
-        cadastro()
+        if opcao == 1:
+            cadastro()
 
-    elif opcao == 2:
-        dados()
+        elif opcao == 2:
+            dados()
 
-    elif opcao == 3:
-        imc()
+        elif opcao == 3:
+            editar()
 
-    elif opcao == 4:
-        sedentarismo()
+        elif opcao == 4:
+            imc()
 
-    elif opcao == 5:
-        while True:
-            try:
-                x = int(input("Digite o seu tempo de sono em minutos: "))
-                if x >= 0:
-                    break
-                else:
-                    print("Altura inválida. Certifique-se de inserir um valor positivo.")
-            except ValueError:
-                print("Altura inválida. Certifique-se de inserir um valor numérico.")
-        sono(x)
+        elif opcao == 5:
+            sedentarismo()
 
-    elif opcao ==6:
-        break
+        elif opcao == 6:
+            while True: #loop para tratamento de erro de sono
+                try:
+                    x = int(input("Digite o seu tempo de sono em minutos: "))
+                    if x >= 0:
+                        break
+                    else:
+                        print("Altura inválida. Certifique-se de inserir um valor positivo.")
+                except ValueError:
+                    print("Altura inválida. Certifique-se de inserir um valor numérico.")
+            sono(x)
 
-    else:
-        print("Opção inválida.")
+        elif opcao == 7:
+            break
+
+        else:
+            print("Opção inválida.")
+
+menu()
